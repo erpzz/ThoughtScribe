@@ -1,3 +1,4 @@
+# Developer: Eric Neftali Paiz
 import requests
 import os
 from elevenlabs import ElevenLabs, Voice, VoiceSettings
@@ -100,7 +101,7 @@ class OllamaIntegration:
         return summary, audio
 
 
-# Example Usage
+# This can be run as a standalone test.
 if __name__ == "__main__":
     print("Starting main execution...")
     ollama = OllamaIntegration(elevenlabs_api_key="YOUR_ELEVENLABS_API_KEY")
