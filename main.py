@@ -125,7 +125,6 @@ if view_mode == "After Class Venting":
 
     if st.button("Start Conversation"):
         try:
-            # Initialize ElevenLabs client and conversation
             api_key = os.getenv("ELEVENLABS_API_KEY", "").strip()
             agent_id = os.getenv("AGENT_ID", "").strip()
 
@@ -134,13 +133,9 @@ if view_mode == "After Class Venting":
                 st.stop()
 
             client = ElevenLabs(api_key=api_key)
-            status_message = st.empty()  # Placeholder for dynamic status updates
+            status_message = st.empty() 
             status_message.write("Initializing Conversation...")
 
-            # Display the local GIF animation
-           
-
-            # Start the conversation
             conversation = Conversation(
                 client=client,
                 agent_id=agent_id,
@@ -153,10 +148,9 @@ if view_mode == "After Class Venting":
                 callback_user_transcript=lambda transcript: st.write(f"**You:** {transcript}"),
             )
             conversation.start_session()
-            status_message.empty()  # Remove the initializing message
+            status_message.empty()  
             st.success("Conversation started! Speak into your microphone.")
 
-            # End Conversation Button
             if st.button("End Conversation by saying End Conversation", key="end_convo"):
                 try:
                     conversation.end_session()
@@ -165,7 +159,7 @@ if view_mode == "After Class Venting":
                         st.success("Conversation successfully ended.")
                     else:
                         st.warning("Some threads might still be active.")
-                    gif_container.empty()  # Clear the GIF animation
+                    gif_container.empty() 
                 except Exception as e:
                     st.error(f"Failed to end the conversation: {e}")
 
