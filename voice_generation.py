@@ -1,3 +1,4 @@
+# Developer: Eric Neftali Paiz
 from elevenlabs.client import ElevenLabs
 import os
 
