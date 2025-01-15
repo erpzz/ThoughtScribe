@@ -1,21 +1,20 @@
+# Developer: Eric Neftali Paiz
 import os
 import json
 from datetime import datetime, timedelta
 
-# Base directories
 BASE_DIR = "data"
 CHAT_LOGS_DIR = os.path.join(BASE_DIR, "chat_logs")
 AUDIO_DIR = os.path.join(BASE_DIR, "audio")
 UPLOADED_DIR = os.path.join(BASE_DIR, "uploaded")
 TEMP_DIR = os.path.join(BASE_DIR, "temp")
 
-# Ensure directories exist
+
 os.makedirs(CHAT_LOGS_DIR, exist_ok=True)
 os.makedirs(AUDIO_DIR, exist_ok=True)
 os.makedirs(UPLOADED_DIR, exist_ok=True)
 os.makedirs(TEMP_DIR, exist_ok=True)
 
-### File and Session Management ###
 def clean_old_files(directory, days=7):
     now = datetime.now()
     cutoff = now - timedelta(days=days)
@@ -53,7 +52,6 @@ def load_chat_history(session_id):
     return []
 
 
-### Ollama Integration Utilities ###
 def prepare_ollama_prompt(base_prompt, user_message, conversation_history=None):
     """
     Constructs the full prompt for the Ollama API.
@@ -107,8 +105,6 @@ def retrieve_summary(session_id):
     summaries = [msg for sender, msg in chat_history if sender == "Bot" and "Summary:" in msg]
     return summaries[-1] if summaries else "No summary available."
 
-
-### Temporary File Management ###
 def clear_temp_files():
     for file in os.listdir(TEMP_DIR):
         file_path = os.path.join(TEMP_DIR, file)
