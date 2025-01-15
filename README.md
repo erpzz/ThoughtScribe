@@ -100,7 +100,7 @@ ThoughtScribe is a two-in-one tool designed to enhance productivity and support 
 - Add mobile app support.
 - Integrate more advanced sentiment analysis.
 - Enable multilingual capabilities for non-English users.
-
+- Add SMS integration to ThoughtScribe conversational agent.
 ---
 
 ## Contributing
