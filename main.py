@@ -12,6 +12,11 @@ from elevenlabs.conversational_ai.conversation import Conversation
 from elevenlabs.conversational_ai.default_audio_interface import DefaultAudioInterface
 from streamlit_lottie import st_lottie
 
+st.set_page_config(
+    page_title="ThoughtScribe",          
+    page_icon="images/favicon.png",    
+)
+
 load_dotenv()
 agent_id = os.getenv("AGENT_ID")
 elevenlabs_api_key = os.getenv("ELEVENLABS_API_KEY")
@@ -123,6 +128,9 @@ if view_mode == "After Class Venting":
     st.header("ThoughtScribe Friend")
     st.caption("Come talk or vent about school work after studying.")
 
+    if "conversation" not in st.session_state:
+        st.session_state["conversation"] = None 
+
     if st.button("Start Conversation"):
         try:
             api_key = os.getenv("ELEVENLABS_API_KEY", "").strip()
@@ -151,20 +159,29 @@ if view_mode == "After Class Venting":
             status_message.empty()  
             st.success("Conversation started! Speak into your microphone.")
 
-            if st.button("End Conversation by saying End Conversation", key="end_convo"):
-                try:
-                    conversation.end_session()
-                    conversation_ended = conversation.wait_for_session_end(timeout=5)
-                    if conversation_ended:
-                        st.success("Conversation successfully ended.")
-                    else:
-                        st.warning("Some threads might still be active.")
-                    gif_container.empty() 
-                except Exception as e:
-                    st.error(f"Failed to end the conversation: {e}")
+            st.session_state["conversation"] = conversation
 
         except Exception as e:
             st.error(f"An error occurred: {e}")
+
+    if st.session_state["conversation"] and st.button("End Conversation", key="end_convo"):
+        try:
+            conversation = st.session_state["conversation"]
+            with st.spinner("Ending the conversation..."):
+             
+                conversation.end_session()
+             
+                conversation_ended = conversation.wait_for_session_end()
+                if conversation_ended:
+                    st.success("Conversation successfully ended.")
+                else:
+                    st.warning("Some threads might still be active.")
+
+            st.session_state["conversation"] = None
+            st.empty()
+
+        except Exception as e:
+            st.error(f"Failed to end the conversation: {e}")
 
 
 st.markdown("---")
